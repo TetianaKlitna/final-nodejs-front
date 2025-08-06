@@ -18,7 +18,7 @@ const MainBar = () => {
     <header>
       <AppBar position="fixed">
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography variant="h6" component="div" fontWeight={700}>
+          <Typography variant="h6" component="div" fontWeight={700} color='primary.secondary'>
             WEATHER HUB
           </Typography>
 
