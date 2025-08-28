@@ -1,22 +1,25 @@
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
+import FormLabel from '@mui/material/FormLabel';
+import SignUpIcon from '@mui/icons-material/PersonAdd';
 import Box from '@mui/material/Box';
-import LoginIcon from '@mui/icons-material/Login';
-import { GoogleIcon, FacebookIcon } from './CustomIcons';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import Link from '@mui/material/Link';
+import SocialLogin from './form-components/SocialLogin';
+import { type DialogProps } from '../types/DialogProps';
 import { useState } from 'react';
 
-const SignIn = () => {
+const SignUp = ({ open, handleClose }: DialogProps) => {
+  const [nameError, setNameError] = useState(false);
+  const [nameErrorMessage, setNameErrorMessage] = useState('');
   const [emailError, setEmailError] = useState(false);
   const [emailErrorMsg, setEmailErrorMsg] = useState('');
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorMsg, setPasswordErrorMsg] = useState('');
 
-  const handleClickOpen = () => {};
   const handleSubmit = () => {};
 
   return (
@@ -29,9 +32,9 @@ const SignIn = () => {
         borderColor: 'primary.secondary',
       }}
     >
-      <LoginIcon color="primary" />
+      <SignUpIcon color="primary" />
       <Typography component="h1" variant="h4" sx={{ width: '100%' }}>
-        Sign in
+        Sign Up
       </Typography>
       <Box
         component="form"
@@ -45,11 +48,30 @@ const SignIn = () => {
         }}
       >
         <FormControl>
+          <FormLabel htmlFor="name" required>
+            Full name:
+          </FormLabel>
+          <TextField
+            autoComplete="name"
+            name="name"
+            placeholder="First and Last Name"
+            required
+            fullWidth
+            id="name"
+            error={nameError}
+            helperText={nameErrorMessage}
+            color={nameError ? 'error' : 'primary'}
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel htmlFor="email" required>
+            Email:
+          </FormLabel>
           <TextField
             id="email"
             type="email"
             name="email"
-            label="Email"
+            placeholder="your@email.com"
             error={emailError}
             helperText={emailErrorMsg}
             variant="outlined"
@@ -60,11 +82,14 @@ const SignIn = () => {
           />
         </FormControl>
         <FormControl>
+          <FormLabel htmlFor="password" required>
+            Password:
+          </FormLabel>
           <TextField
             id="password"
             type="password"
             name="password"
-            label="Password"
+            placeholder="••••••"
             error={passwordError}
             helperText={passwordErrorMsg}
             required
@@ -79,45 +104,19 @@ const SignIn = () => {
           variant="contained"
           //onClick={validateInputs}
         >
-          Sign in
+          Sign up
         </Button>
-        <Link
-          component="button"
-          type="button"
-          onClick={handleClickOpen}
-          variant="body2"
-          sx={{ alignSelf: 'center' }}
-        >
-          Forgot your password?
-        </Link>
         <Divider>or</Divider>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <Button
-            fullWidth
-            variant="outlined"
-            onClick={() => alert('Sign in with Google')}
-            startIcon={<GoogleIcon />}
-          >
-            Sign in with Google
-          </Button>
-          <Button
-            fullWidth
-            variant="outlined"
-            onClick={() => alert('Sign in with Facebook')}
-            startIcon={<FacebookIcon />}
-          >
-            Sign in with Facebook
-          </Button>
-          <Typography sx={{ textAlign: 'center' }}>
-            Don&apos;t have an account?{' '}
-            <Link href="/" variant="body2" sx={{ alignSelf: 'center' }}>
-              Sign up
-            </Link>
-          </Typography>
-        </Box>
+        <SocialLogin />
+        <Typography sx={{ textAlign: 'center' }}>
+          Already have an account?{' '}
+          <Link href="/" variant="body2" sx={{ alignSelf: 'center' }}>
+            Sign in
+          </Link>
+        </Typography>
       </Box>
     </Stack>
   );
 };
 
-export default SignIn;
+export default SignUp;

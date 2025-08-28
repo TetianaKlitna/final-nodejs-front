@@ -5,7 +5,9 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import SignInDialogButton from './auth/SignInDialogButton';
+import Box from '@mui/material/Box';
+import SignInDialogButton from './auth/dialogs/SignInDialogButton';
+import SignUpDialogButton from './auth/dialogs/SignUpDialogButton';
 
 const menuItems = [
   { id: 1, text: 'TODAY', router: '/' },
@@ -18,7 +20,12 @@ const MainBar = () => {
     <header>
       <AppBar position="fixed">
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography variant="h6" component="div" fontWeight={700} color='primary.secondary'>
+          <Typography
+            variant="h6"
+            component="div"
+            fontWeight={700}
+            color="primary.secondary"
+          >
             WEATHER HUB
           </Typography>
 
@@ -27,12 +34,15 @@ const MainBar = () => {
               return (
                 <ListItem key={menuItem.id}>
                   <ListItemIcon></ListItemIcon>
-                  <ListItemText >{menuItem.text}</ListItemText>
+                  <ListItemText>{menuItem.text}</ListItemText>
                 </ListItem>
               );
             })}
           </List>
-          <SignInDialogButton />
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <SignUpDialogButton />
+            <SignInDialogButton />
+          </Box>
         </Toolbar>
       </AppBar>
     </header>
