@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 import LoginIcon from '@mui/icons-material/Login';
 import ForgotPassword from './ForgotPassword';
 import SocialLogin from './form-components/SocialLogin';
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 
 const SignIn = () => {
   const [openForgotPassword, setOpenForgotPassword] = useState(false);
@@ -27,7 +27,9 @@ const SignIn = () => {
     setOpenForgotPassword(false);
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  };
 
   return (
     <Stack

@@ -9,10 +9,11 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
 import SocialLogin from './form-components/SocialLogin';
-import { type DialogProps } from '../types/DialogProps';
-import { useState } from 'react';
+import useAuthApi from '../../../hooks/useAuthApi';
+import type { User } from '../../../types/User';
+import { useState, type FormEvent } from 'react';
 
-const SignUp = ({ open, handleClose }: DialogProps) => {
+const SignUp = () => {
   const [nameError, setNameError] = useState(false);
   const [nameErrorMessage, setNameErrorMessage] = useState('');
   const [emailError, setEmailError] = useState(false);
@@ -20,7 +21,14 @@ const SignUp = ({ open, handleClose }: DialogProps) => {
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorMsg, setPasswordErrorMsg] = useState('');
 
-  const handleSubmit = () => {};
+  const { isLoading, isError, error, createUser, createdUser } = useAuthApi();
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const user: User = { id: 'number1', name: 'Tetiana' };
+    createUser(user);
+    console.log(createdUser, isLoading, isError, error);
+  };
 
   return (
     <Stack

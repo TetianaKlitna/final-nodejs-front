@@ -15,7 +15,9 @@ const menuItems = [
   { id: 3, text: 'FAVORITIES', router: '/favorities' },
 ];
 
+
 const MainBar = () => {
+
   return (
     <header>
       <AppBar position="fixed">
@@ -47,6 +49,7 @@ const MainBar = () => {
       </AppBar>
     </header>
   );
+
 };
 
 export default MainBar;

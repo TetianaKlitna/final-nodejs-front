@@ -16,10 +16,6 @@ const DialogButtonWrapper = ({
 }: DialogWrapperProps) => {
   const [open, setOpen] = useState(false);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
     <>
       <Button onClick={() => setOpen(true)} color="inherit" size="large">
@@ -36,7 +32,7 @@ const DialogButtonWrapper = ({
         </Box>
         <DialogTitle />
         <DialogContent>
-          <Component open={open} handleClose={handleClose} />
+          <Component />
         </DialogContent>
       </Dialog>
     </>
