@@ -1,11 +1,11 @@
 import { apiCall } from './api';
 import type { User } from '../types/User';
 
-const signUp = async (user: User) => {
-  const res = await apiCall<User>('post', '/auth/signup', user);
+const register = async (user: User) => {
+  const res = await apiCall<User>('post', '/auth/register', user);
   return res;
 };
 
-const signIn = () => {};
+const login = () => {};
 
-export { signUp, signIn };
+export { register, login };

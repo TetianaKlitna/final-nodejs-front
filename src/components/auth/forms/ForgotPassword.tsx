@@ -5,7 +5,11 @@ import DialogContentText from '@mui/material/DialogContentText';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import { type DialogProps } from '../types/DialogProps';
+
+interface DialogProps {
+  open: boolean;
+  handleClose: () => void;
+}
 
 const ForgotPassword = ({ open, handleClose }: DialogProps) => {
   return (

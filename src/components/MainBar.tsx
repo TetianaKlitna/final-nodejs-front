@@ -6,8 +6,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Box from '@mui/material/Box';
-import SignInDialogButton from './auth/dialogs/SignInDialogButton';
-import SignUpDialogButton from './auth/dialogs/SignUpDialogButton';
+import LoginDialogButton from './auth/dialogs/LoginDialogButton';
+import RegisterDialogButton from './auth/dialogs/RegisterDialogButton';
 
 const menuItems = [
   { id: 1, text: 'TODAY', router: '/' },
@@ -15,9 +15,7 @@ const menuItems = [
   { id: 3, text: 'FAVORITIES', router: '/favorities' },
 ];
 
-
 const MainBar = () => {
-
   return (
     <header>
       <AppBar position="fixed">
@@ -42,14 +40,13 @@ const MainBar = () => {
             })}
           </List>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <SignUpDialogButton />
-            <SignInDialogButton />
+            <RegisterDialogButton />
+            <LoginDialogButton />
           </Box>
         </Toolbar>
       </AppBar>
     </header>
   );
-
 };
 
 export default MainBar;

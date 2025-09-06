@@ -1,6 +1,7 @@
-import { signUp } from '../api/apiUser';
+import { register } from '../api/apiUser';
 import type { User } from '../types/User';
 import { useState } from 'react';
+import { AxiosError } from 'axios';
 
 const useAuthApi = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,13 +12,13 @@ const useAuthApi = () => {
   const createUser = async (user: User) => {
     setIsLoading(true);
     try {
-      const res = await signUp(user);
+      const res = await register(user);
       setCreatedUser(res);
       setIsError(false);
     } catch (err) {
       setIsError(true);
-      if (err instanceof Error) {
-        setError(err.message);
+      if (err instanceof AxiosError) {
+        setError(err.response?.data.msg);
       } else {
         setError(String(err));
       }

@@ -1,15 +1,15 @@
 import DialogButtonWrapper from './DialogButtonWrapper';
 import SignUpIcon from '@mui/icons-material/PersonAdd';
-import SignUp from '../forms/SignUp';
+import Register from '../forms/Register';
 
-const SignUpDialogButton = () => {
+const RegisterDialogButton = () => {
   return (
     <DialogButtonWrapper
       Icon={<SignUpIcon />}
-      title="Sign Up"
-      Component={SignUp}
+      title="Register"
+      Component={Register}
     />
   );
 };
 
-export default SignUpDialogButton;
+export default RegisterDialogButton;

@@ -12,7 +12,7 @@ import ForgotPassword from './ForgotPassword';
 import SocialLogin from './form-components/SocialLogin';
 import { useState, type FormEvent } from 'react';
 
-const SignIn = () => {
+const Login = () => {
   const [openForgotPassword, setOpenForgotPassword] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [emailErrorMsg, setEmailErrorMsg] = useState('');
@@ -42,8 +42,8 @@ const SignIn = () => {
       }}
     >
       <LoginIcon color="primary" />
-      <Typography component="h1" variant="h4" sx={{ width: '100%' }}>
-        Sign In
+      <Typography variant="h6" sx={{ width: '100%' }}>
+        Login
       </Typography>
       <Box
         component="form"
@@ -117,7 +117,7 @@ const SignIn = () => {
         <Typography sx={{ textAlign: 'center' }}>
           Don&apos;t have an account?{' '}
           <Link href="/" variant="body2" sx={{ alignSelf: 'center' }}>
-            Sign up
+            Register
           </Link>
         </Typography>
       </Box>
@@ -125,4 +125,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Login;

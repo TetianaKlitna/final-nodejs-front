@@ -13,21 +13,23 @@ import useAuthApi from '../../../hooks/useAuthApi';
 import type { User } from '../../../types/User';
 import { useState, type FormEvent } from 'react';
 
-const SignUp = () => {
-  const [nameError, setNameError] = useState(false);
-  const [nameErrorMessage, setNameErrorMessage] = useState('');
-  const [emailError, setEmailError] = useState(false);
-  const [emailErrorMsg, setEmailErrorMsg] = useState('');
-  const [passwordError, setPasswordError] = useState(false);
-  const [passwordErrorMsg, setPasswordErrorMsg] = useState('');
+const Register = () => {
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const { isLoading, isError, error, createUser, createdUser } = useAuthApi();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const user: User = { id: 'number1', name: 'Tetiana' };
-    createUser(user);
+    const user: User = { name: fullName, email, password };
+    await createUser(user);
     console.log(createdUser, isLoading, isError, error);
+    if (!isError) {
+      setFullName('');
+      setEmail('');
+      setPassword('');
+    }
   };
 
   return (
@@ -40,10 +42,17 @@ const SignUp = () => {
         borderColor: 'primary.secondary',
       }}
     >
-      <SignUpIcon color="primary" />
-      <Typography component="h1" variant="h4" sx={{ width: '100%' }}>
-        Sign Up
+      <Typography
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1,
+        }}
+      >
+        <SignUpIcon color="primary" />
+        Register
       </Typography>
+
       <Box
         component="form"
         onSubmit={handleSubmit}
@@ -52,7 +61,7 @@ const SignUp = () => {
           display: 'flex',
           flexDirection: 'column',
           width: '100%',
-          gap: 2,
+          gap: 1,
         }}
       >
         <FormControl>
@@ -66,9 +75,9 @@ const SignUp = () => {
             required
             fullWidth
             id="name"
-            error={nameError}
-            helperText={nameErrorMessage}
-            color={nameError ? 'error' : 'primary'}
+            value={fullName}
+            onChange={(event) => setFullName(event.target.value)}
+            color="primary"
           />
         </FormControl>
         <FormControl>
@@ -79,14 +88,14 @@ const SignUp = () => {
             id="email"
             type="email"
             name="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
             placeholder="your@email.com"
-            error={emailError}
-            helperText={emailErrorMsg}
             variant="outlined"
             required
             fullWidth
             autoFocus
-            color={emailError ? 'error' : 'primary'}
+            color="primary"
           />
         </FormControl>
         <FormControl>
@@ -97,29 +106,34 @@ const SignUp = () => {
             id="password"
             type="password"
             name="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
             placeholder="••••••"
-            error={passwordError}
-            helperText={passwordErrorMsg}
             required
             fullWidth
             autoFocus
-            color={passwordError ? 'error' : 'primary'}
+            color="primary"
           />
         </FormControl>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          //onClick={validateInputs}
-        >
-          Sign up
+        {isError && (
+          <Box
+            role="alert"
+            sx={{
+              color: 'error.main',
+            }}
+          >
+            {typeof error === 'string' ? error : 'Something went wrong'}
+          </Box>
+        )}
+        <Button type="submit" fullWidth variant="contained">
+          {isLoading ? 'Loading...' : 'Register'}
         </Button>
         <Divider>or</Divider>
         <SocialLogin />
         <Typography sx={{ textAlign: 'center' }}>
           Already have an account?{' '}
           <Link href="/" variant="body2" sx={{ alignSelf: 'center' }}>
-            Sign in
+            Login
           </Link>
         </Typography>
       </Box>
@@ -127,4 +141,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Register;
