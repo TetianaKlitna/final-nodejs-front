@@ -10,14 +10,24 @@ import Box from '@mui/material/Box';
 import LoginIcon from '@mui/icons-material/Login';
 import ForgotPassword from './ForgotPassword';
 import SocialLogin from './form-components/SocialLogin';
+import type { User } from '../../../types/User';
+import useAuthApi from '../../../hooks/useAuthApi';
+import { useAuth } from '../../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { useState, type FormEvent } from 'react';
+
+const emailRegex =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}))$/;
 
 const Login = () => {
   const [openForgotPassword, setOpenForgotPassword] = useState(false);
-  const [emailError, setEmailError] = useState(false);
-  const [emailErrorMsg, setEmailErrorMsg] = useState('');
-  const [passwordError, setPasswordError] = useState(false);
-  const [passwordErrorMsg, setPasswordErrorMsg] = useState('');
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const { isLoading, isError, error, loginUser } = useAuthApi();
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleOpenForgotPassword = () => {
     setOpenForgotPassword(true);
@@ -27,8 +37,21 @@ const Login = () => {
     setOpenForgotPassword(false);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const payload: User = { name: '', email, password };
+
+    try {
+      const { user, token } = await loginUser(payload);
+      login(user.name, token);
+
+      setEmail('');
+      setPassword('');
+
+      navigate('/dashboard', { replace: true });
+    } catch (err) {
+      console.error('Registration failed', err);
+    }
   };
 
   return (
@@ -64,14 +87,20 @@ const Login = () => {
             id="email"
             type="email"
             name="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
             placeholder="your@email.com"
-            error={emailError}
-            helperText={emailErrorMsg}
             variant="outlined"
             required
             fullWidth
             autoFocus
-            color={emailError ? 'error' : 'primary'}
+            color="primary"
+            error={email !== '' && !emailRegex.test(email)}
+            helperText={
+              email !== '' && !emailRegex.test(email)
+                ? 'Invalid email format'
+                : ''
+            }
           />
         </FormControl>
         <FormControl>
@@ -82,22 +111,27 @@ const Login = () => {
             id="password"
             type="password"
             name="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
             placeholder="••••••"
-            error={passwordError}
-            helperText={passwordErrorMsg}
             required
             fullWidth
             autoFocus
-            color={passwordError ? 'error' : 'primary'}
+            color="primary"
           />
         </FormControl>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          //onClick={validateInputs}
-        >
-          Sign in
+        {isError && (
+          <Box
+            role="alert"
+            sx={{
+              color: 'error.main',
+            }}
+          >
+            {typeof error === 'string' ? error : 'Something went wrong'}
+          </Box>
+        )}
+        <Button type="submit" fullWidth variant="contained">
+          {isLoading ? 'Loading...' : 'Login'}
         </Button>
         <Link
           component="button"

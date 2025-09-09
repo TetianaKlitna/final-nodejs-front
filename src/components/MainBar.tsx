@@ -1,19 +1,18 @@
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import { NavLink } from 'react-router-dom';
 import LoginDialogButton from './auth/dialogs/LoginDialogButton';
 import RegisterDialogButton from './auth/dialogs/RegisterDialogButton';
 import Logout from '../components/auth/forms/Logout';
 import { useAuth } from '../context/AuthContext';
 
 const menuItems = [
-  { id: 1, text: 'Dashboard', router: '/dashboard' },
-  { id: 2, text: 'Tasks', router: '/tasks' },
+  { id: 1, text: 'Dashboard', to: '/dashboard' },
+  { id: 2, text: 'Tasks', to: '/tasks' },
 ];
 
 const MainBar = () => {
@@ -21,37 +20,45 @@ const MainBar = () => {
 
   return (
     <header>
-      <AppBar position="fixed">
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography
-            variant="h6"
-            component="div"
-            fontWeight={700}
-            color="primary.secondary"
-          >
-            WEATHER HUB
-          </Typography>
-
-          <List sx={{ display: 'flex' }}>
-            {menuItems.map((menuItem) => {
-              return (
-                <ListItem key={menuItem.id}>
-                  <ListItemIcon></ListItemIcon>
-                  <ListItemText>{menuItem.text}</ListItemText>
-                </ListItem>
-              );
-            })}
-          </List>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <AppBar position="fixed" color="default" elevation={1}>
+        <Toolbar sx={{ gap: 2 }}>
+          <Stack direction="row" spacing={1} sx={{ mr: 2 }}>
+            {menuItems.map(({ id, text, to }) => (
+              <Button
+                key={id}
+                component={NavLink}
+                to={to}
+                variant="text"
+                color="inherit"
+                sx={{
+                  '&.active': {
+                    fontWeight: 700,
+                    borderBottom: '2px solid',
+                    borderColor: 'primary.main',
+                    borderRadius: 0,
+                  },
+                }}
+              >
+                <Typography variant="body1">{text}</Typography>
+              </Button>
+            ))}
+          </Stack>
+          <Box sx={{ flexGrow: 1 }} />
+          <Stack direction="row" spacing={2} alignItems="center">
             {user && token ? (
-              <Logout />
+              <>
+                <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                  Welcome, <strong>{user}</strong>
+                </Typography>
+                <Logout />
+              </>
             ) : (
               <>
                 <RegisterDialogButton />
                 <LoginDialogButton />
               </>
             )}
-          </Box>
+          </Stack>
         </Toolbar>
       </AppBar>
     </header>
