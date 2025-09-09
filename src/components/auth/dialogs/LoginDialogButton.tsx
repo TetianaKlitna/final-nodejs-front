@@ -4,7 +4,12 @@ import LoginIcon from '@mui/icons-material/Login';
 
 const LoginDialogButton = () => {
   return (
-    <DialogButtonWrapper Icon={<LoginIcon />} title="Login" Component={Login} />
+    <DialogButtonWrapper
+      Icon={<LoginIcon />}
+      title="Login"
+      Component={Login}
+      path="/login"
+    />
   );
 };
 

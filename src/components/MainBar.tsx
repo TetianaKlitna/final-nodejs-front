@@ -8,14 +8,17 @@ import ListItemText from '@mui/material/ListItemText';
 import Box from '@mui/material/Box';
 import LoginDialogButton from './auth/dialogs/LoginDialogButton';
 import RegisterDialogButton from './auth/dialogs/RegisterDialogButton';
+import Logout from '../components/auth/forms/Logout';
+import { useAuth } from '../context/AuthContext';
 
 const menuItems = [
-  { id: 1, text: 'TODAY', router: '/' },
-  { id: 2, text: 'FORECAST', router: '/forecast' },
-  { id: 3, text: 'FAVORITIES', router: '/favorities' },
+  { id: 1, text: 'Dashboard', router: '/dashboard' },
+  { id: 2, text: 'Tasks', router: '/tasks' },
 ];
 
 const MainBar = () => {
+  const { user, token } = useAuth();
+
   return (
     <header>
       <AppBar position="fixed">
@@ -40,8 +43,14 @@ const MainBar = () => {
             })}
           </List>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <RegisterDialogButton />
-            <LoginDialogButton />
+            {user && token ? (
+              <Logout />
+            ) : (
+              <>
+                <RegisterDialogButton />
+                <LoginDialogButton />
+              </>
+            )}
           </Box>
         </Toolbar>
       </AppBar>

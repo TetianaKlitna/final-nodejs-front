@@ -8,6 +8,7 @@ const RegisterDialogButton = () => {
       Icon={<SignUpIcon />}
       title="Register"
       Component={Register}
+      path="/register"
     />
   );
 };

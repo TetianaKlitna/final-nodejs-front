@@ -4,4 +4,5 @@ export type DialogWrapperProps = {
   Icon: ReactNode;
   title: string;
   Component: ElementType;
+  path: string;
 };

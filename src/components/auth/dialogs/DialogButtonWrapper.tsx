@@ -7,18 +7,24 @@ import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { type DialogWrapperProps } from '../types/DialogWrapperProps';
-import { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const DialogButtonWrapper = ({
   Icon,
   title,
   Component,
+  path,
 }: DialogWrapperProps) => {
-  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const open = location.pathname === path;
+
+  const handleClose = () => navigate('/');
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} color="inherit" size="large">
+      <Button onClick={() => navigate(path)} color="inherit" size="large">
         <Box display="flex" flexDirection="row" gap={1}>
           {Icon}
           <Typography variant="body1">{title}</Typography>
@@ -26,7 +32,7 @@ const DialogButtonWrapper = ({
       </Button>
       <Dialog open={open}>
         <Box sx={{ position: 'absolute', right: 5, top: 5 }}>
-          <IconButton aria-label="close" onClick={() => setOpen(false)}>
+          <IconButton aria-label="close" onClick={handleClose}>
             <CloseIcon />
           </IconButton>
         </Box>

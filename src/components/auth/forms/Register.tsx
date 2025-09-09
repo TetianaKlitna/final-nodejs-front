@@ -12,23 +12,36 @@ import SocialLogin from './form-components/SocialLogin';
 import useAuthApi from '../../../hooks/useAuthApi';
 import type { User } from '../../../types/User';
 import { useState, type FormEvent } from 'react';
+import { useAuth } from '../../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  const emailRegex =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}))$/;
+
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { isLoading, isError, error, createUser, createdUser } = useAuthApi();
+  const { isLoading, isError, error, createUser } = useAuthApi();
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const user: User = { name: fullName, email, password };
-    await createUser(user);
-    console.log(createdUser, isLoading, isError, error);
-    if (!isError) {
+    const payload: User = { name: fullName, email, password };
+
+    try {
+      const { user, token } = await createUser(payload);
+      login(user.name, token);
+
       setFullName('');
       setEmail('');
       setPassword('');
+
+      navigate('/dashboard', { replace: true });
+    } catch (err) {
+      console.error('Registration failed', err);
     }
   };
 
@@ -96,6 +109,12 @@ const Register = () => {
             fullWidth
             autoFocus
             color="primary"
+            error={email !== '' && !emailRegex.test(email)}
+            helperText={
+              email !== '' && !emailRegex.test(email)
+                ? 'Invalid email format'
+                : ''
+            }
           />
         </FormControl>
         <FormControl>
