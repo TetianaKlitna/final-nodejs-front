@@ -151,7 +151,7 @@ const Register = () => {
         <SocialLogin />
         <Typography sx={{ textAlign: 'center' }}>
           Already have an account?{' '}
-          <Link href="/" variant="body2" sx={{ alignSelf: 'center' }}>
+          <Link href="/login" variant="body2" sx={{ alignSelf: 'center' }}>
             Login
           </Link>
         </Typography>
