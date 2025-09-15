@@ -32,8 +32,8 @@ const Register = () => {
     const payload: User = { name: fullName, email, password };
 
     try {
-      const { user, token } = await createUser(payload);
-      login(user.name, token);
+      const { accessToken, user } = await createUser(payload);
+      login(user.name, accessToken);
 
       setFullName('');
       setEmail('');
@@ -144,7 +144,12 @@ const Register = () => {
             {typeof error === 'string' ? error : 'Something went wrong'}
           </Box>
         )}
-        <Button type="submit" fullWidth variant="contained">
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          disabled={isLoading}
+        >
           {isLoading ? 'Loading...' : 'Register'}
         </Button>
         <Divider>or</Divider>

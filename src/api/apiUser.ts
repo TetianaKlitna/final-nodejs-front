@@ -1,9 +1,10 @@
 import { apiCall } from './api';
 import type { User } from '../types/User';
+import type { UserDTO } from '../types/UserDTO';
 
 export type AuthResponse = {
-  user: User;
-  token: string;
+  accessToken: string;
+  user: UserDTO;
 };
 
 export const register = async (user: User): Promise<AuthResponse> => {
@@ -14,4 +15,9 @@ export const register = async (user: User): Promise<AuthResponse> => {
 export const login = async (user: User): Promise<AuthResponse> => {
   const res = await apiCall<AuthResponse>('post', '/auth/login', user);
   return res;
+};
+
+export const logout = async (): Promise<boolean> => {
+  const res = await apiCall<{ success: boolean }>('post', 'auth/logout');
+  return res.success;
 };

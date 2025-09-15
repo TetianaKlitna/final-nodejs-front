@@ -40,10 +40,9 @@ const Login = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const payload: User = { name: '', email, password };
-
     try {
-      const { user, token } = await loginUser(payload);
-      login(user.name, token);
+      const { accessToken, user } = await loginUser(payload);
+      login(user.name, accessToken);
 
       setEmail('');
       setPassword('');
@@ -130,7 +129,7 @@ const Login = () => {
             {typeof error === 'string' ? error : 'Something went wrong'}
           </Box>
         )}
-        <Button type="submit" fullWidth variant="contained">
+        <Button type="submit" fullWidth variant="contained" disabled={isLoading}>
           {isLoading ? 'Loading...' : 'Login'}
         </Button>
         <Link
