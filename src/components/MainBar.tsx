@@ -19,49 +19,47 @@ const MainBar = () => {
   const { user, token } = useAuth();
 
   return (
-    <header>
-      <AppBar position="fixed" color="default" elevation={1}>
-        <Toolbar sx={{ gap: 2 }}>
-          <Stack direction="row" spacing={1} sx={{ mr: 2 }}>
-            {menuItems.map(({ id, text, to }) => (
-              <Button
-                key={id}
-                component={NavLink}
-                to={to}
-                variant="text"
-                color="inherit"
-                sx={{
-                  '&.active': {
-                    fontWeight: 700,
-                    borderBottom: '2px solid',
-                    borderColor: 'primary.main',
-                    borderRadius: 0,
-                  },
-                }}
-              >
-                <Typography variant="body1">{text}</Typography>
-              </Button>
-            ))}
-          </Stack>
-          <Box sx={{ flexGrow: 1 }} />
-          <Stack direction="row" spacing={2} alignItems="center">
-            {user && token ? (
-              <>
-                <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-                  Welcome, <strong>{user}</strong>
-                </Typography>
-                <Logout />
-              </>
-            ) : (
-              <>
-                <RegisterDialogButton />
-                <LoginDialogButton />
-              </>
-            )}
-          </Stack>
-        </Toolbar>
-      </AppBar>
-    </header>
+    <AppBar position="static" color="default">
+      <Toolbar sx={{ gap: 2 }}>
+        <Stack direction="row" spacing={1} sx={{ mr: 2 }}>
+          {menuItems.map(({ id, text, to }) => (
+            <Button
+              key={id}
+              component={NavLink}
+              to={to}
+              variant="text"
+              color="inherit"
+              sx={{
+                '&.active': {
+                  fontWeight: 700,
+                  borderBottom: '2px solid',
+                  borderColor: 'primary.main',
+                  borderRadius: 0,
+                },
+              }}
+            >
+              <Typography variant="body1">{text}</Typography>
+            </Button>
+          ))}
+        </Stack>
+        <Box sx={{ flexGrow: 1 }} />
+        <Stack direction="row" spacing={2} alignItems="center">
+          {user && token ? (
+            <>
+              <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                Welcome, <strong>{user}</strong>
+              </Typography>
+              <Logout />
+            </>
+          ) : (
+            <>
+              <RegisterDialogButton />
+              <LoginDialogButton />
+            </>
+          )}
+        </Stack>
+      </Toolbar>
+    </AppBar>
   );
 };
 

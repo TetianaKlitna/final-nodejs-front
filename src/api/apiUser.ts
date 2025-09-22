@@ -1,6 +1,5 @@
 import { apiCall } from './api';
-import type { User } from '../types/User';
-import type { UserDTO } from '../types/UserDTO';
+import type { User, UserDTO } from '../types';
 
 export type AuthResponse = {
   accessToken: string;

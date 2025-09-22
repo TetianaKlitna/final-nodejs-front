@@ -22,7 +22,6 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="tasks" element={<Tasks />} />
-              <Route path="task" element={<Task />} />
             </Route>
             <Route path="*" element={<p>Page Not Found</p>} />
           </Route>
