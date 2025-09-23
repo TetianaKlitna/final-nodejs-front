@@ -1,4 +1,4 @@
-import DialogButtonWrapper from './DialogButtonWrapper';
+import DialogButtonWrapper from '../../dialogs/DialogButtonWrapper';
 import SignUpIcon from '@mui/icons-material/PersonAdd';
 import Register from '../forms/Register';
 

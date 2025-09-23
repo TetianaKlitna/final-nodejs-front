@@ -11,8 +11,8 @@ import Logout from '../components/auth/forms/Logout';
 import { useAuth } from '../context/AuthContext';
 
 const menuItems = [
-  { id: 1, text: 'Dashboard', to: '/dashboard' },
-  { id: 2, text: 'Tasks', to: '/tasks' },
+  { id: 1, text: 'Tasks', to: '/tasks' },
+  { id: 2, text: 'Dashboard', to: '/dashboard' },
 ];
 
 const MainBar = () => {

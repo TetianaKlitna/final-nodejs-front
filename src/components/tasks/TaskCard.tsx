@@ -3,24 +3,41 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
+import type { TaskDTO } from '../../types';
+import { useNavigate } from 'react-router-dom';
 
-export type TaskCardTypeProps = {
-  title: string;
+const priorityColors: Record<'Low' | 'Medium' | 'High', string> = {
+  Low: 'success.main',
+  Medium: 'warning.main',
+  High: 'error.main',
 };
 
-const TaskCard = ({ title }: TaskCardTypeProps) => {
+const TaskCard = (task: TaskDTO) => {
+  const navigate = useNavigate();
+
+  const handleOnView = () => {
+    navigate(`${task.taskId}`);
+  };
+
   return (
     <Card variant="outlined">
       <CardContent>
         <Typography variant="h6" component="div">
-          {title}
+          {task?.title}
         </Typography>
         <Typography sx={{ color: 'text.secondary', mb: 1 }}>
-          adjective
+          Due date: {new Date(task?.dueDate).toLocaleDateString()}
+        </Typography>
+        <Typography
+          sx={{ color: priorityColors[task?.priority], fontWeight: 600 }}
+        >
+          Priority: {task?.priority}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Button size="small" onClick={handleOnView}>
+          Learn More
+        </Button>
       </CardActions>
     </Card>
   );

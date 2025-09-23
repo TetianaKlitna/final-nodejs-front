@@ -47,7 +47,7 @@ const Login = () => {
       setEmail('');
       setPassword('');
 
-      navigate('/dashboard', { replace: true });
+      navigate('/tasks', { replace: true });
     } catch (err) {
       console.error('Registration failed', err);
     }
@@ -129,7 +129,12 @@ const Login = () => {
             {typeof error === 'string' ? error : 'Something went wrong'}
           </Box>
         )}
-        <Button type="submit" fullWidth variant="contained" disabled={isLoading}>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          disabled={isLoading}
+        >
           {isLoading ? 'Loading...' : 'Login'}
         </Button>
         <Link

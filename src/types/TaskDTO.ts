@@ -3,4 +3,5 @@ export type TaskDTO = {
   title: string;
   dueDate: Date;
   status: 'To-Do' | 'In-Progress' | 'Done';
+  priority: 'Low' | 'Medium' | 'High';
 };

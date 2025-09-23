@@ -10,3 +10,8 @@ export const getTasksByUser = async (): Promise<TaskResponse> => {
   const res = await apiCall<TaskResponse>('get', '/tasks');
   return res;
 };
+
+export const getTaskData = async (id: string): Promise<TaskResponse> => {
+  const res = await apiCall<TaskResponse>('get', `/tasks/${id}`);
+  return res;
+};

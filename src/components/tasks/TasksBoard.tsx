@@ -6,6 +6,7 @@ import TaskCard from './TaskCard';
 import type { DragEvent } from 'react';
 import useTaskApi from '../../hooks/useTaskApi';
 import type { TaskDTO } from '../../types';
+import LoadingWrapper from '../loading/LoadingWrapper';
 
 type Column = { id: string; title: string; items: TaskDTO[] };
 
@@ -34,7 +35,7 @@ export default function TasksBoard() {
     };
 
     fetchTasks();
-  }, [getTasks]);
+  }, []);
 
   const onDragStart = (e: DragEvent, taskId: string, fromColId: string) => {
     e.dataTransfer.setData('text/plain', JSON.stringify({ taskId, fromColId }));
@@ -76,51 +77,53 @@ export default function TasksBoard() {
   };
 
   return (
-    <Stack direction="row" spacing={2}>
-      {board.map((col) => (
-        <Box
-          key={col.id}
-          onDragOver={onDragOver}
-          onDrop={(e) => onDrop(e, col.id)}
-          sx={{
-            flex: 1,
-            minWidth: 260,
-            minHeight: 260,
-            p: 2,
-            border: '1px solid',
-            borderColor: 'divider',
-            borderRadius: 2,
-            bgcolor: 'background.paper',
-          }}
-        >
-          <Typography
-            variant="h6"
-            align="center"
+    <LoadingWrapper isLoading={isLoading} isError={isError} error={error}>
+      <Stack direction="row" spacing={2}>
+        {board.map((col) => (
+          <Box
+            key={col.id}
+            onDragOver={onDragOver}
+            onDrop={(e) => onDrop(e, col.id)}
             sx={{
-              mb: 1,
-              color: 'primary.main',
-              fontWeight: 700,
+              flex: 1,
+              minWidth: 260,
+              minHeight: 260,
+              p: 2,
+              border: '1px solid',
+              borderColor: 'divider',
+              borderRadius: 2,
+              bgcolor: 'background.paper',
             }}
           >
-            {col.title}
-          </Typography>
-
-          {col.items.map((task) => (
-            <Box
-              key={task.taskId}
+            <Typography
+              variant="h6"
+              align="center"
               sx={{
-                p: 1,
                 mb: 1,
-                cursor: 'grab',
+                color: 'primary.main',
+                fontWeight: 700,
               }}
-              draggable
-              onDragStart={(e) => onDragStart(e, task.taskId, col.id)}
             >
-              <TaskCard title={task.title} />
-            </Box>
-          ))}
-        </Box>
-      ))}
-    </Stack>
+              {col.title}
+            </Typography>
+
+            {col.items.map((task) => (
+              <Box
+                key={task.taskId}
+                sx={{
+                  p: 1,
+                  mb: 1,
+                  cursor: 'grab',
+                }}
+                draggable
+                onDragStart={(e) => onDragStart(e, task.taskId, col.id)}
+              >
+                <TaskCard {...task} />
+              </Box>
+            ))}
+          </Box>
+        ))}
+      </Stack>
+    </LoadingWrapper>
   );
 }

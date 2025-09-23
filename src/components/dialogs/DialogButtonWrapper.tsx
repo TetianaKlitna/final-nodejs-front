@@ -6,8 +6,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { type DialogWrapperProps } from '../types/DialogWrapperProps';
 import { useNavigate, useLocation } from 'react-router-dom';
+import type { ReactNode, ElementType } from 'react';
+
+type DialogWrapperProps = {
+  Icon: ReactNode;
+  title: string;
+  Component: ElementType;
+  path: string;
+};
 
 const DialogButtonWrapper = ({
   Icon,
@@ -25,11 +32,12 @@ const DialogButtonWrapper = ({
   return (
     <>
       <Button onClick={() => navigate(path)} color="inherit" size="large">
-        <Box display="flex" flexDirection="row" gap={1}>
+        <Box display="flex" flexDirection="row" gap={1} alignItems="center">
           {Icon}
-          <Typography variant="body1">{title}</Typography>
+          {title && <Typography variant="body1">{title}</Typography>}
         </Box>
       </Button>
+
       <Dialog open={open}>
         <Box sx={{ position: 'absolute', right: 5, top: 5 }}>
           <IconButton aria-label="close" onClick={handleClose}>

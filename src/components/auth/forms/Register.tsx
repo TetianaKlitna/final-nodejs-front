@@ -39,7 +39,7 @@ const Register = () => {
       setEmail('');
       setPassword('');
 
-      navigate('/dashboard', { replace: true });
+      navigate('/tasks', { replace: true });
     } catch (err) {
       console.error('Registration failed', err);
     }

@@ -1,6 +1,6 @@
 import MainLayout from './layout/MainLayout';
-import LoginDialogButton from './components/auth/dialogs/LoginDialogButton';
-import RegisterDialogButton from './components/auth/dialogs/RegisterDialogButton';
+import LoginDialog from './components/auth/dialogs/LoginDialog';
+import RegisterDialog from './components/auth/dialogs/RegisterDialog';
 import ProtectedRoute from './routers/ProtectedRoute';
 import { AuthProvider } from './context/AuthProvider';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -9,7 +9,7 @@ import './App.css';
 
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const Tasks = lazy(() => import('./pages/Tasks'));
-const Task = lazy(() => import('./pages/Task'));
+const TaskDialog = lazy(() => import('./components/tasks/dialogs/TaskDialog'));
 
 function App() {
   return (
@@ -17,11 +17,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainLayout />}>
-            <Route path="register" element={<RegisterDialogButton />} />
-            <Route path="login" element={<LoginDialogButton />} />
+            <Route path="register" element={<RegisterDialog />} />
+            <Route path="login" element={<LoginDialog />} />
             <Route element={<ProtectedRoute />}>
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="tasks" element={<Tasks />} />
+              <Route path="tasks/:id" element={<TaskDialog />} />
             </Route>
             <Route path="*" element={<p>Page Not Found</p>} />
           </Route>
