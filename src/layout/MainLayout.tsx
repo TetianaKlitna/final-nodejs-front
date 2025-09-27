@@ -15,7 +15,7 @@ const MainLayout = () => {
       <Box component="header" sx={{ flex: '0 0 10%' }}>
         <MainBar />
       </Box>
-      <Box component="main" sx={{ flex: '1 1 80%', p: 2}}>
+      <Box component="main" sx={{ flex: '1 1 90%', p: 2 }}>
         <Outlet />
       </Box>
     </Box>

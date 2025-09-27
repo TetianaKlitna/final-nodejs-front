@@ -7,6 +7,7 @@ import type { DragEvent } from 'react';
 import useTaskApi from '../../hooks/useTaskApi';
 import type { TaskDTO } from '../../types';
 import LoadingWrapper from '../loading/LoadingWrapper';
+import TaskMenu from './TaskMenu';
 
 type Column = { id: string; title: string; items: TaskDTO[] };
 
@@ -19,7 +20,7 @@ export default function TasksBoard() {
       try {
         const res = await getTasks();
         const tasks = res.tasks;
-
+         
         const todo = tasks.filter((t) => t.status === 'To-Do');
         const inProgress = tasks.filter((t) => t.status === 'In-Progress');
         const done = tasks.filter((t) => t.status === 'Done');
@@ -77,6 +78,8 @@ export default function TasksBoard() {
   };
 
   return (
+    <>
+    <TaskMenu />
     <LoadingWrapper isLoading={isLoading} isError={isError} error={error}>
       <Stack direction="row" spacing={2}>
         {board.map((col) => (
@@ -125,5 +128,6 @@ export default function TasksBoard() {
         ))}
       </Stack>
     </LoadingWrapper>
+    </>
   );
 }

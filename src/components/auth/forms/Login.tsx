@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import LoginIcon from '@mui/icons-material/Login';
 import ForgotPassword from './ForgotPassword';
 import SocialLogin from './form-components/SocialLogin';
+import ErrorAlert from '../../alerts/ErrorAlert';
 import type { User } from '../../../types/User';
 import useAuthApi from '../../../hooks/useAuthApi';
 import { useAuth } from '../../../context/AuthContext';
@@ -119,16 +120,7 @@ const Login = () => {
             color="primary"
           />
         </FormControl>
-        {isError && (
-          <Box
-            role="alert"
-            sx={{
-              color: 'error.main',
-            }}
-          >
-            {typeof error === 'string' ? error : 'Something went wrong'}
-          </Box>
-        )}
+        {isError && <ErrorAlert message={error} />}
         <Button
           type="submit"
           fullWidth

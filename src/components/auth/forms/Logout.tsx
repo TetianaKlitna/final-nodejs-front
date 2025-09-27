@@ -1,5 +1,5 @@
 import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
+import ErrorAlert from '../../alerts/ErrorAlert';
 import { useAuth } from '../../../context/AuthContext';
 import useAuthApi from '../../../hooks/useAuthApi';
 
@@ -17,16 +17,7 @@ const Logout = () => {
 
   return (
     <>
-      {isError && (
-        <Box
-          role="alert"
-          sx={{
-            color: 'error.main',
-          }}
-        >
-          {typeof error === 'string' ? error : 'Something went wrong'}
-        </Box>
-      )}
+      {isError && <ErrorAlert message={error} />}
       <Button
         color="inherit"
         size="large"

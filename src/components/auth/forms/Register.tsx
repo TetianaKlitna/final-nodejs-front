@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
 import SocialLogin from './form-components/SocialLogin';
+import ErrorAlert from '../../alerts/ErrorAlert';
 import useAuthApi from '../../../hooks/useAuthApi';
 import type { User } from '../../../types/User';
 import { useState, type FormEvent } from 'react';
@@ -134,16 +135,7 @@ const Register = () => {
             color="primary"
           />
         </FormControl>
-        {isError && (
-          <Box
-            role="alert"
-            sx={{
-              color: 'error.main',
-            }}
-          >
-            {typeof error === 'string' ? error : 'Something went wrong'}
-          </Box>
-        )}
+        {isError && <ErrorAlert message={error} />}
         <Button
           type="submit"
           fullWidth
