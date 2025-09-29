@@ -16,35 +16,33 @@ const priorityColors: Record<'Low' | 'Medium' | 'High', string> = {
   High: 'error.main',
 };
 
-const TaskCard = (task: TaskDTO) => {
+type Props = TaskDTO & { onDeleted?: () => void };
+
+const TaskCard = ({ taskId, title, dueDate, priority, onDeleted }: Props) => {
   const navigate = useNavigate();
   const { isLoading, isError, error, deleteTask } = useTaskApi();
 
   const handleOnView = () => {
-    navigate(`${task.taskId}`);
+    navigate(`${taskId}`);
   };
 
   const handleOnDelete = async () => {
-    if (!task.taskId) return;
-    await deleteTask(task.taskId);
+    if (!taskId) return;
+    await deleteTask(taskId);
+    onDeleted?.();
   };
 
   return (
-    <Card
-      variant="outlined"
-      sx={{ borderColor: priorityColors[task?.priority] }}
-    >
+    <Card variant="outlined" sx={{ borderColor: priorityColors[priority] }}>
       <CardContent>
         <Typography variant="h6" component="div">
-          {task?.title}
+          {title}
         </Typography>
         <Typography sx={{ color: 'text.secondary', mb: 1 }}>
-          Due date: {new Date(task?.dueDate).toLocaleDateString()}
+          Due date: {new Date(dueDate).toLocaleDateString()}
         </Typography>
-        <Typography
-          sx={{ color: priorityColors[task?.priority], fontWeight: 600 }}
-        >
-          Priority: {task?.priority}
+        <Typography sx={{ color: priorityColors[priority], fontWeight: 600 }}>
+          Priority: {priority}
         </Typography>
       </CardContent>
       {isError && <ErrorAlert message={error} />}

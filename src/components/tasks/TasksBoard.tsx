@@ -15,26 +15,22 @@ export default function TasksBoard() {
   const { isLoading, isError, error, getTasks } = useTaskApi();
   const [board, setBoard] = useState<Column[]>([]);
 
+  const fetchTasks = async () => {
+    const res = await getTasks();
+    const tasks = res.tasks;
+
+    const todo = tasks.filter((t) => t.status === 'To-Do');
+    const inProgress = tasks.filter((t) => t.status === 'In-Progress');
+    const done = tasks.filter((t) => t.status === 'Done');
+
+    setBoard([
+      { id: 'todo', title: 'To Do', items: todo },
+      { id: 'inprogress', title: 'In Progress', items: inProgress },
+      { id: 'done', title: 'Done', items: done },
+    ]);
+  };
+
   useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const res = await getTasks();
-        const tasks = res.tasks;
-         
-        const todo = tasks.filter((t) => t.status === 'To-Do');
-        const inProgress = tasks.filter((t) => t.status === 'In-Progress');
-        const done = tasks.filter((t) => t.status === 'Done');
-
-        setBoard([
-          { id: 'todo', title: 'To Do', items: todo },
-          { id: 'inprogress', title: 'In Progress', items: inProgress },
-          { id: 'done', title: 'Done', items: done },
-        ]);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
     fetchTasks();
   }, []);
 
@@ -79,55 +75,55 @@ export default function TasksBoard() {
 
   return (
     <>
-    <TaskMenu />
-    <LoadingWrapper isLoading={isLoading} isError={isError} error={error}>
-      <Stack direction="row" spacing={2}>
-        {board.map((col) => (
-          <Box
-            key={col.id}
-            onDragOver={onDragOver}
-            onDrop={(e) => onDrop(e, col.id)}
-            sx={{
-              flex: 1,
-              minWidth: 260,
-              minHeight: 260,
-              p: 2,
-              border: '1px solid',
-              borderColor: 'divider',
-              borderRadius: 2,
-              bgcolor: 'background.paper',
-            }}
-          >
-            <Typography
-              variant="h6"
-              align="center"
+      <TaskMenu />
+      <LoadingWrapper isLoading={isLoading} isError={isError} error={error}>
+        <Stack direction="row" spacing={2}>
+          {board.map((col) => (
+            <Box
+              key={col.id}
+              onDragOver={onDragOver}
+              onDrop={(e) => onDrop(e, col.id)}
               sx={{
-                mb: 1,
-                color: 'primary.main',
-                fontWeight: 700,
+                flex: 1,
+                minWidth: 260,
+                minHeight: 260,
+                p: 2,
+                border: '1px solid',
+                borderColor: 'divider',
+                borderRadius: 2,
+                bgcolor: 'background.paper',
               }}
             >
-              {col.title}
-            </Typography>
-
-            {col.items.map((task) => (
-              <Box
-                key={task.taskId}
+              <Typography
+                variant="h6"
+                align="center"
                 sx={{
-                  p: 1,
                   mb: 1,
-                  cursor: 'grab',
+                  color: 'primary.main',
+                  fontWeight: 700,
                 }}
-                draggable
-                onDragStart={(e) => onDragStart(e, task.taskId, col.id)}
               >
-                <TaskCard {...task} />
-              </Box>
-            ))}
-          </Box>
-        ))}
-      </Stack>
-    </LoadingWrapper>
+                {col.title}
+              </Typography>
+
+              {col.items.map((task) => (
+                <Box
+                  key={task.taskId}
+                  sx={{
+                    p: 1,
+                    mb: 1,
+                    cursor: 'grab',
+                  }}
+                  draggable
+                  onDragStart={(e) => onDragStart(e, task.taskId, col.id)}
+                >
+                  <TaskCard {...task} onDeleted={fetchTasks} />
+                </Box>
+              ))}
+            </Box>
+          ))}
+        </Stack>
+      </LoadingWrapper>
     </>
   );
 }

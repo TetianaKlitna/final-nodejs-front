@@ -25,8 +25,9 @@ export const createTaskData = async (task: Task): Promise<TaskResponse> => {
   return res;
 };
 
-export const deleteTaskData = async (id: string) => {
-  await apiCall<TaskResponse>('delete', `/tasks/${id}`);
+export const deleteTaskData = async (id: string): Promise<TaskResponse> => {
+  const res = await apiCall<TaskResponse>('delete', `/tasks/${id}`);
+  return res;
 };
 
 export const updateTaskData = async (
