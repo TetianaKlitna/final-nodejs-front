@@ -9,12 +9,7 @@ import type { TaskDTO } from '../../types';
 import { useNavigate } from 'react-router-dom';
 import useTaskApi from '../../hooks/useTaskApi';
 import ErrorAlert from '../alerts/ErrorAlert';
-
-const priorityColors: Record<'Low' | 'Medium' | 'High', string> = {
-  Low: 'success.main',
-  Medium: 'warning.main',
-  High: 'error.main',
-};
+import { PRIORITY_COLORS } from '../../constants';
 
 type Props = TaskDTO & { onDeleted?: () => void };
 
@@ -33,7 +28,7 @@ const TaskCard = ({ taskId, title, dueDate, priority, onDeleted }: Props) => {
   };
 
   return (
-    <Card variant="outlined" sx={{ borderColor: priorityColors[priority] }}>
+    <Card variant="outlined" sx={{ borderColor: PRIORITY_COLORS[priority] }}>
       <CardContent>
         <Typography variant="h6" component="div">
           {title}
@@ -41,7 +36,7 @@ const TaskCard = ({ taskId, title, dueDate, priority, onDeleted }: Props) => {
         <Typography sx={{ color: 'text.secondary', mb: 1 }}>
           Due date: {new Date(dueDate).toLocaleDateString()}
         </Typography>
-        <Typography sx={{ color: priorityColors[priority], fontWeight: 600 }}>
+        <Typography sx={{ color: PRIORITY_COLORS[priority], fontWeight: 600 }}>
           Priority: {priority}
         </Typography>
       </CardContent>

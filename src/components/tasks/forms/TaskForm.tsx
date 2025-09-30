@@ -13,6 +13,7 @@ import SuccessAlert from '../../alerts/SuccessAlert';
 import {
   STATUS,
   PRIORITY,
+  PRIORITY_COLORS,
   type Status,
   type Priority,
 } from '../../../constants';
@@ -136,6 +137,19 @@ const TaskForm = () => {
               select
               value={priority}
               onChange={(e) => setPriority(e.target.value as Priority)}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: PRIORITY_COLORS[priority],
+                  },
+                  "&:hover fieldset": {
+                    borderColor: PRIORITY_COLORS[priority],
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: PRIORITY_COLORS[priority],
+                  },
+                },
+              }}
             >
               {Object.values(PRIORITY).map((p) => (
                 <MenuItem key={p} value={p}>

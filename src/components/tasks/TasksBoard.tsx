@@ -8,11 +8,12 @@ import useTaskApi from '../../hooks/useTaskApi';
 import type { TaskDTO } from '../../types';
 import LoadingWrapper from '../loading/LoadingWrapper';
 import TaskMenu from './TaskMenu';
+import { COL_TO_STATUS } from '../../constants';
 
 type Column = { id: string; title: string; items: TaskDTO[] };
 
 export default function TasksBoard() {
-  const { isLoading, isError, error, getTasks } = useTaskApi();
+  const { isLoading, isError, error, getTasks, updateTask } = useTaskApi();
   const [board, setBoard] = useState<Column[]>([]);
 
   const fetchTasks = async () => {
@@ -44,7 +45,7 @@ export default function TasksBoard() {
     e.dataTransfer.dropEffect = 'move';
   };
 
-  const onDrop = (e: DragEvent, toColId: string) => {
+  const onDrop = async (e: DragEvent, toColId: string) => {
     e.preventDefault();
 
     const raw = e.dataTransfer.getData('text/plain');
@@ -58,8 +59,11 @@ export default function TasksBoard() {
 
     if (!taskId || !fromColId) return;
 
+    const prevBoard = board;
+    const targetStatus = COL_TO_STATUS[toColId]; 
+
     setBoard((prev) => {
-      const next = prev.map((c) => ({ ...c, items: [...c.items] }));
+      const next = prev.map((status) => ({ ...status, items: [...status.items] }));
       const fromCol = next.find((c) => c.id === fromColId);
       const toCol = next.find((c) => c.id === toColId);
       if (!fromCol || !toCol) return prev;
@@ -69,9 +73,15 @@ export default function TasksBoard() {
 
       const [moved] = fromCol.items.splice(idx, 1);
       toCol.items.push(moved);
+
       return next;
     });
-  };
+  
+    console.log(taskId, targetStatus);
+    const res = await updateTask(taskId, { status: targetStatus });
+    console.log(res);
+    if(isError) setBoard(prevBoard);
+  };  
 
   return (
     <>

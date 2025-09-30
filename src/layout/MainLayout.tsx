@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import MainBar from '../components/MainBar';
+import Footer from '../components/Footer';
 import Box from '@mui/material/Box';
 
 const MainLayout = () => {
@@ -15,8 +16,11 @@ const MainLayout = () => {
       <Box component="header" sx={{ flex: '0 0 10%' }}>
         <MainBar />
       </Box>
-      <Box component="main" sx={{ flex: '1 1 90%', p: 2 }}>
+      <Box component="main" sx={{ flex: '1 1 80%', p: 2 }}>
         <Outlet />
+      </Box>
+      <Box component="footer" sx={{ flex: '0 0 10%' }}>
+        <Footer />
       </Box>
     </Box>
   );
