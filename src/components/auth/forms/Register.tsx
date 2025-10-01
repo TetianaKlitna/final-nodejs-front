@@ -3,46 +3,52 @@ import Typography from '@mui/material/Typography';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import FormLabel from '@mui/material/FormLabel';
-import SignUpIcon from '@mui/icons-material/PersonAdd';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import SocialLogin from './form-components/SocialLogin';
 import ErrorAlert from '../../alerts/ErrorAlert';
+import SuccessAlert from '../../alerts/SuccessAlert';
 import useAuthApi from '../../../hooks/useAuthApi';
 import type { User } from '../../../types/User';
 import { useState, type FormEvent } from 'react';
-import { useAuth } from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const emailRegex =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}))$/;
 
 const Register = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorFormMsg, setErrorFormMsg] = useState('');
+  const [successFormMsg, setSuccessFormMsg] = useState('');
   const { isLoading, isError, error, createUser } = useAuthApi();
-  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (password !== confirmPassword) {
+      setErrorFormMsg('Passwords do not match.');
+      return;
+    }
+    setErrorFormMsg('');
     const payload: User = { name: fullName, email, password };
 
-    try {
-      const { accessToken, user } = await createUser(payload);
-      login(user.name, accessToken);
+    const success = await createUser(payload);
 
-      setFullName('');
-      setEmail('');
-      setPassword('');
-
-      navigate('/tasks', { replace: true });
-    } catch (err) {
-      console.error('Registration failed', err);
+    if (success) {
+      setSuccessFormMsg('Account created! Redirecting to login...');
+      setTimeout(() => navigate('/login', { replace: true }), 2000);
     }
   };
 
@@ -56,21 +62,9 @@ const Register = () => {
         borderColor: 'primary.secondary',
       }}
     >
-      <Typography
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1,
-        }}
-      >
-        <SignUpIcon color="primary" />
-        Register
-      </Typography>
-
       <Box
         component="form"
         onSubmit={handleSubmit}
-        noValidate
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -118,24 +112,73 @@ const Register = () => {
             }
           />
         </FormControl>
-        <FormControl>
-          <FormLabel htmlFor="password" required>
-            Password:
-          </FormLabel>
-          <TextField
-            id="password"
-            type="password"
-            name="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            placeholder="••••••"
-            required
-            fullWidth
-            autoFocus
-            color="primary"
-          />
-        </FormControl>
+        <Stack direction="row" spacing={2}>
+          <FormControl sx={{ flex: 1 }}>
+            <FormLabel htmlFor="password" required>
+              Password:
+            </FormLabel>
+            <TextField
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              placeholder="••••••"
+              required
+              fullWidth
+              autoFocus
+              color="primary"
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+          </FormControl>
+          <FormControl sx={{ flex: 1 }}>
+            <FormLabel htmlFor="confirmPassword" required>
+              Confirm Password
+            </FormLabel>
+            <TextField
+              id="confirmPassword"
+              type={showConfirmPassword ? 'text' : 'password'}
+              name="confirmPassword"
+              required
+              value={confirmPassword}
+              onChange={(event) => setConfirmPassword(event.target.value)}
+              placeholder="••••••"
+              fullWidth
+              autoFocus
+              color="primary"
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowConfirmPassword((prev) => !prev)}
+                        edge="end"
+                      >
+                        {confirmPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+          </FormControl>
+        </Stack>
+        {errorFormMsg && <ErrorAlert message={errorFormMsg} />}
         {isError && <ErrorAlert message={error} />}
+        {successFormMsg && <SuccessAlert message={successFormMsg} />}
         <Button
           type="submit"
           fullWidth

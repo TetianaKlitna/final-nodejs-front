@@ -5,7 +5,7 @@ import useRequest from './useRequest';
 const useAuthApi = () => {
   const { run, isLoading, isError, error } = useRequest();
 
-  const createUser = (user: User) => run<AuthResponse>(() => register(user));
+  const createUser = (user: User) => run<boolean>(() => register(user));
   const loginUser = (user: User) => run<AuthResponse>(() => login(user));
   const logoutUser = () => run<boolean>(() => logout());
 

@@ -7,8 +7,10 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
-import LoginIcon from '@mui/icons-material/Login';
-import ForgotPassword from './ForgotPassword';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import SocialLogin from './form-components/SocialLogin';
 import ErrorAlert from '../../alerts/ErrorAlert';
 import type { User } from '../../../types/User';
@@ -21,22 +23,13 @@ const emailRegex =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}))$/;
 
 const Login = () => {
-  const [openForgotPassword, setOpenForgotPassword] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const { isLoading, isError, error, loginUser } = useAuthApi();
   const navigate = useNavigate();
   const { login } = useAuth();
-
-  const handleOpenForgotPassword = () => {
-    setOpenForgotPassword(true);
-  };
-
-  const handleCloseForgotPassword = () => {
-    setOpenForgotPassword(false);
-  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -64,14 +57,9 @@ const Login = () => {
         borderColor: 'primary.secondary',
       }}
     >
-      <LoginIcon color="primary" />
-      <Typography variant="h6" sx={{ width: '100%' }}>
-        Login
-      </Typography>
       <Box
         component="form"
         onSubmit={handleSubmit}
-        noValidate
         sx={{
           display: 'flex',
           flexDirection: 'column',
@@ -85,7 +73,7 @@ const Login = () => {
           </FormLabel>
           <TextField
             id="email"
-            type="email"
+            type="text"
             name="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
@@ -109,7 +97,7 @@ const Login = () => {
           </FormLabel>
           <TextField
             id="password"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             name="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
@@ -118,9 +106,22 @@ const Login = () => {
             fullWidth
             autoFocus
             color="primary"
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
+            }}
           />
         </FormControl>
-        {isError && <ErrorAlert message={error} />}
         <Button
           type="submit"
           fullWidth
@@ -129,19 +130,14 @@ const Login = () => {
         >
           {isLoading ? 'Loading...' : 'Login'}
         </Button>
+        {isError && <ErrorAlert message={error} />}
         <Link
-          component="button"
-          type="button"
-          onClick={handleOpenForgotPassword}
+          href="/forgotPassword"
           variant="body2"
           sx={{ alignSelf: 'center' }}
         >
           Forgot your password?
         </Link>
-        <ForgotPassword
-          open={openForgotPassword}
-          handleClose={handleCloseForgotPassword}
-        />
         <Divider>or</Divider>
         <SocialLogin />
         <Typography sx={{ textAlign: 'center' }}>

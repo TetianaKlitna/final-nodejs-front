@@ -6,9 +6,13 @@ export type AuthResponse = {
   user: UserDTO;
 };
 
-export const register = async (user: User): Promise<AuthResponse> => {
-  const res = await apiCall<AuthResponse>('post', '/auth/register', user);
-  return res;
+export const register = async (user: User): Promise<boolean> => {
+  const res = await apiCall<{ success: boolean }>(
+    'post',
+    '/auth/register',
+    user
+  );
+  return res.success;
 };
 
 export const login = async (user: User): Promise<AuthResponse> => {

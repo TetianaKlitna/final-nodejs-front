@@ -11,16 +11,21 @@ type DialogWrapperProps = {
   title: string;
   Component: ElementType;
   path: string;
-  returnTo: string;
+  returnTo?: string;
 };
 
-const DialogWrapper = ({ title, Component, path, returnTo = '/' }: DialogWrapperProps) => {
+const DialogWrapper = ({
+  title,
+  Component,
+  path,
+  returnTo = '/',
+}: DialogWrapperProps) => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const open = Boolean(matchPath({ path, end: true }, location.pathname));
 
-  console.log(location.pathname, path);
+  console.log(open, location.pathname, path);
 
   const handleClose = () => navigate(returnTo);
 

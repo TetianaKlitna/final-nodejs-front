@@ -4,7 +4,7 @@ export interface User {
   password: string;
 }
 
-export interface TaskDTO extends User {
+export interface UserDTO extends User {
   userId: string;
   isActivated: boolean;
 }

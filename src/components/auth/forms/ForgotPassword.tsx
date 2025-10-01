@@ -1,45 +1,47 @@
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import DialogActions from '@mui/material/DialogActions';
+import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { useState } from 'react';
 
-interface DialogProps {
-  open: boolean;
-  handleClose: () => void;
-}
-
-const ForgotPassword = ({ open, handleClose }: DialogProps) => {
+const ForgotPassword = () => {
+  const [email, setEmail] = useState('');
+  const handleSubmit = () => {};
   return (
-    <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Reset Password</DialogTitle>
-      <DialogContent
-        sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}
-      >
-        <DialogContentText>
-          Enter your account&apos;s email address, and we&apos;ll send you a
-          link to reset your password.
-        </DialogContentText>
-        <OutlinedInput
-          autoFocus
-          required
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        gap: 2,
+      }}
+    >
+      <FormControl>
+        <FormLabel htmlFor="email" required>
+          Enter your email to reset your password:
+        </FormLabel>
+
+        <TextField
           id="email"
+          type="text"
           name="email"
-          label="Email address"
-          placeholder="Email address"
-          type="email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          placeholder="your@email.com"
+          variant="outlined"
+          required
           fullWidth
+          autoFocus
+          color="primary"
         />
-      </DialogContent>
-      <DialogActions sx={{ pb: 3, px: 3 }}>
-        <Button onClick={handleClose}>Close</Button>
-        <Button variant="contained" type="submit">
-          Continue
-        </Button>
-      </DialogActions>
-    </Dialog>
+      </FormControl>
+      <Button type="submit" fullWidth variant="contained">
+        {'Send'}
+      </Button>
+    </Box>
   );
 };
 
