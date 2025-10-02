@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import useAuthApi from '../../../hooks/useAuthApi';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
@@ -8,14 +10,38 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
+import ErrorAlert from '../../alerts/ErrorAlert';
+import SuccessAlert from '../../alerts/SuccessAlert';
 
 const ResetPassword = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get('token') || '';
+  const email = searchParams.get('email') || '';
+
+  const { isLoading, isError, error, resetPasswordUser } = useAuthApi();
+
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errorFormMsg, setErrorFormMsg] = useState('');
+  const [successFormMsg, setSuccessFormMsg] = useState('');
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (password !== confirmPassword) {
+      setErrorFormMsg('Passwords do not match.');
+      return;
+    }
+    setErrorFormMsg('');
+
+    const success = await resetPasswordUser(token, email, password);
+    if (success) {
+      setSuccessFormMsg('Password changed! Redirecting to login...');
+      setTimeout(() => navigate('/login', { replace: true }), 2000);
+    }
+  };
 
   return (
     <Box
@@ -51,7 +77,7 @@ const ResetPassword = () => {
                     onClick={() => setShowPassword((prev) => !prev)}
                     edge="end"
                   >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -82,7 +108,7 @@ const ResetPassword = () => {
                     onClick={() => setShowConfirmPassword((prev) => !prev)}
                     edge="end"
                   >
-                    {confirmPassword ? <VisibilityOff /> : <Visibility />}
+                    {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -90,9 +116,12 @@ const ResetPassword = () => {
           }}
         />
       </FormControl>
-      <Button type="submit" fullWidth variant="contained">
-        {'Reset'}
+      <Button type="submit" fullWidth variant="contained" disabled={isLoading}>
+        {isLoading ? 'Loading...' : 'Reset'}
       </Button>
+      {errorFormMsg && <ErrorAlert message={errorFormMsg} />}
+      {isError && <ErrorAlert message={error} />}
+      {successFormMsg && <SuccessAlert message={successFormMsg} />}
     </Box>
   );
 };

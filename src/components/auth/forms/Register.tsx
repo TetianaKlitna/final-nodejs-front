@@ -136,7 +136,7 @@ const Register = () => {
                         onClick={() => setShowPassword((prev) => !prev)}
                         edge="end"
                       >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
                       </IconButton>
                     </InputAdornment>
                   ),
@@ -167,7 +167,11 @@ const Register = () => {
                         onClick={() => setShowConfirmPassword((prev) => !prev)}
                         edge="end"
                       >
-                        {confirmPassword ? <VisibilityOff /> : <Visibility />}
+                        {showConfirmPassword ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOff />
+                        )}
                       </IconButton>
                     </InputAdornment>
                   ),

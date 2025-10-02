@@ -24,3 +24,25 @@ export const logout = async (): Promise<boolean> => {
   const res = await apiCall<{ success: boolean }>('post', 'auth/logout');
   return res.success;
 };
+
+export const forgotPassword = async (email: string): Promise<boolean> => {
+  const res = await apiCall<{ success: boolean }>(
+    'post',
+    'auth/forgotPassword',
+    { email }
+  );
+  return res.success;
+};
+
+export const resetPassword = async (
+  token: string,
+  email: string,
+  newPassword: string
+): Promise<boolean> => {
+  const res = await apiCall<{ success: boolean }>(
+    'post',
+    'auth/resetPassword',
+    { email, token, newPassword }
+  );
+  return res.success;
+};
