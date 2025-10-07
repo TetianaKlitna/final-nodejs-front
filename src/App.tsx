@@ -3,6 +3,7 @@ import LoginDialog from './components/auth/dialogs/LoginDialog';
 import RegisterDialog from './components/auth/dialogs/RegisterDialog';
 import ForgotPaswordDialog from './components/auth/dialogs/ForgotPaswordDialog';
 import ResetPaswordDialog from './components/auth/dialogs/ResetPasswordDialog';
+import Home from './pages/Home';
 import ProtectedRoute from './routers/ProtectedRoute';
 import { AuthProvider } from './context/AuthProvider';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -19,6 +20,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainLayout />}>
+             <Route index element={<Home />} />
             <Route path="register" element={<RegisterDialog />} />
             <Route path="login" element={<LoginDialog />} />
             <Route path="forgotPassword" element={<ForgotPaswordDialog />} />

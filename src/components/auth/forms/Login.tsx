@@ -41,7 +41,7 @@ const Login = () => {
       setEmail('');
       setPassword('');
 
-      navigate('/tasks', { replace: true });
+      navigate('/', { replace: true });
     } catch (err) {
       console.error('Registration failed', err);
     }

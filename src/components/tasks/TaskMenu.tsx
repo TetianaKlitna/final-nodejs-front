@@ -13,7 +13,7 @@ const TaskMenu = () => {
     navigate('new');
   };
   return (
-    <AppBar position="static" sx={{ mb: 3, borderRadius: 2 }}>
+    <AppBar position="static" sx={{ mb: 1 }}>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <TaskIcon color="inherit" />

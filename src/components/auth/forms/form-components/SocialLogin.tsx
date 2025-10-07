@@ -1,35 +1,25 @@
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import { GoogleIcon, FacebookIcon } from './CustomIcons';
-import { useAuth } from '../../../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import { GoogleIcon } from './CustomIcons'
 
 const SocialLogin = () => {
-  const navigate = useNavigate();
-  const { login } = useAuth();
 
-  const handleGoogleLogin = () => {};
+  const handleGoogleLogin = () => {
+    window.location.href = `${import.meta.env.VITE_APP_API_URL}/auth/google`
+  }
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       <Button
         fullWidth
-        variant="outlined"
+        variant='outlined'
         onClick={handleGoogleLogin}
         startIcon={<GoogleIcon />}
       >
         Sign in with Google
       </Button>
-      <Button
-        fullWidth
-        variant="outlined"
-        onClick={() => alert('Sign in with Facebook')}
-        startIcon={<FacebookIcon />}
-      >
-        Sign in with Facebook
-      </Button>
     </Box>
-  );
-};
+  )
+}
 
-export default SocialLogin;
+export default SocialLogin

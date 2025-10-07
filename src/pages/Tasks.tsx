@@ -3,8 +3,8 @@ import TasksBoard from '../components/tasks/TasksBoard';
 
 const Tasks = () => {
   return (
-    <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <TasksBoard />
+    <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>    
+        <TasksBoard />
     </Box>
   );
 };

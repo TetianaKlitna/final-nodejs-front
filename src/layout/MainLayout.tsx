@@ -9,17 +9,18 @@ const MainLayout = () => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        height: '100vh',
-        width: '100vw',
+        height: '100vh', 
+        width: '100vw', 
+        overflow: 'hidden',
       }}
     >
-      <Box component="header" sx={{ flex: '0 0 10%' }}>
+      <Box component="header">
         <MainBar />
       </Box>
-      <Box component="main" sx={{ flex: '1 1 80%', p: 2 }}>
+      <Box component="main" sx={{ flex: '1 1 auto', overflow: 'hidden' }}>
         <Outlet />
       </Box>
-      <Box component="footer" sx={{ flex: '0 0 10%' }}>
+      <Box component="footer">
         <Footer />
       </Box>
     </Box>
