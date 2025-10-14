@@ -17,7 +17,7 @@ const useTaskApi = () => {
   const createTask = (task: Task) =>
     run<TaskResponse>(() => createTaskData(task))
   const deleteTask = (id: string) => run<TaskResponse>(() => deleteTaskData(id))
-  const updateTask = (id: string, task: Task) =>
+  const updateTask = (id: string, task: Partial<Task>) =>
     run<TaskResponse>(() => updateTaskData(id, task))
 
   return {
