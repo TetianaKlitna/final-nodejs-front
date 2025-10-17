@@ -15,6 +15,11 @@ export const getTasksByUser = async (): Promise<TasksResponse> => {
   return res
 }
 
+export const getAllTasksData = async (): Promise<TasksResponse> => {
+  const res = await apiCall<TasksResponse>('get', '/tasks?all=true')
+  return res
+}
+
 export const getTaskData = async (id: string): Promise<TaskResponse> => {
   const res = await apiCall<TaskResponse>('get', `/tasks/${id}`)
   return res

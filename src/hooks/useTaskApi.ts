@@ -1,5 +1,6 @@
 import {
   getTasksByUser,
+  getAllTasksData,
   getTaskData,
   createTaskData,
   deleteTaskData,
@@ -13,6 +14,7 @@ const useTaskApi = () => {
   const { run, isLoading, isError, error } = useRequest()
 
   const getTasks = () => run<TasksResponse>(getTasksByUser)
+  const getAllTasks = () => run<TasksResponse>(getAllTasksData)
   const getTask = (id: string) => run<TaskResponse>(() => getTaskData(id))
   const createTask = (task: Task) =>
     run<TaskResponse>(() => createTaskData(task))
@@ -25,6 +27,7 @@ const useTaskApi = () => {
     isError,
     error,
     getTasks,
+    getAllTasks,
     getTask,
     createTask,
     deleteTask,

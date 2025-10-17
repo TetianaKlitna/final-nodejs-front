@@ -12,8 +12,8 @@ import { useAuth } from '../context/AuthContext'
 
 const menuItems = [
   { id: 0, text: 'Home', to: '/' },
-  { id: 1, text: 'Tasks', to: '/tasks' }
-  // { id: 2, text: 'Dashboard', to: '/dashboard' },
+  { id: 1, text: 'Tasks', to: '/tasks' },
+  { id: 2, text: 'Dashboard', to: '/dashboard' }
 ]
 
 const MainBar = () => {
