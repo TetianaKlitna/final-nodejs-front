@@ -52,7 +52,6 @@ const Dashboard = () => {
   }
 
   const handleUpdated = (updatedTask: TaskDTO) => {
-    console.log(tasks)
     const prevTask = tasks.find(task => task.taskId === updatedTask.taskId)
     setTasks(prev =>
       prev.map(task =>

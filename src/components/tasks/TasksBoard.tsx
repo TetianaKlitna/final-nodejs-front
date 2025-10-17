@@ -77,9 +77,7 @@ export default function TasksBoard () {
       return next
     })
 
-    console.log(taskId, targetStatus)
-    const res = await updateTask(taskId, { status: targetStatus })
-    console.log(res)
+    await updateTask(taskId, { status: targetStatus })
     if (isError) setBoard(prevBoard)
   }
 
