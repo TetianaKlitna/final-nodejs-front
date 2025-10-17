@@ -73,13 +73,13 @@ const Dashboard = () => {
       <Stack direction='row' sx={{ width: '100%' }}>
         <Card variant='outlined' sx={{ flex: 1 }}>
           <CardContent>
-            <PieChartStatus tasks={tasks} setTasks={setTasks} />
+            <PieChartStatus tasks={tasks} />
           </CardContent>
         </Card>
 
         <Card variant='outlined' sx={{ flex: 1 }}>
           <CardContent>
-            <BarChartPriority tasks={tasks} setTasks={setTasks} />
+            <BarChartPriority tasks={tasks} />
           </CardContent>
         </Card>
       </Stack>
