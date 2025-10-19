@@ -27,8 +27,8 @@ api.interceptors.response.use(
         const { data } = await api.post<{ accessToken: string; user: UserDTO }>(
           '/auth/refresh'
         )
-        setAccessToken(data.accessToken)
-        setUser(data.user)
+        setAccessToken(data?.accessToken)
+        setUser(data?.user?.name)
         original.headers = original.headers || {}
         original.headers.Authorization = `Bearer ${data.accessToken}`
         return api(original)
