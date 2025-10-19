@@ -17,7 +17,7 @@ const menuItems = [
 ]
 
 const MainBar = () => {
-  const { user, token } = useAuth()
+  const { username } = useAuth()
 
   return (
     <AppBar position='static' color='default'>
@@ -45,10 +45,10 @@ const MainBar = () => {
         </Stack>
         <Box sx={{ flexGrow: 1 }} />
         <Stack direction='row' spacing={2} alignItems='center'>
-          {user && token ? (
+          {username ? (
             <>
               <Typography variant='body1' sx={{ color: 'text.secondary' }}>
-                Welcome, <strong>{user}</strong>
+                Welcome, <strong>{username}</strong>
               </Typography>
               <Logout />
             </>

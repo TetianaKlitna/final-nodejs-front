@@ -23,6 +23,7 @@ const emailRegex =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}))$/
 
 const Login = () => {
+  const { login } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -31,7 +32,6 @@ const Login = () => {
   const { isLoading, isError, error, loginUser } = useAuthApi()
   const navigate = useNavigate()
   const location = useLocation()
-  const { login } = useAuth()
 
   useEffect(() => {
     const params = new URLSearchParams(location.search)
@@ -66,7 +66,7 @@ const Login = () => {
     const payload: User = { name: '', email, password }
     try {
       const { accessToken, user } = await loginUser(payload)
-      login(user.name, accessToken)
+      login(accessToken, user?.name)
 
       setEmail('')
       setPassword('')

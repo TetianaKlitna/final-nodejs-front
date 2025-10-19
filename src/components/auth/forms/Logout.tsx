@@ -1,15 +1,15 @@
 import Button from '@mui/material/Button'
 import ErrorAlert from '../../alerts/ErrorAlert'
-import { useAuth } from '../../../context/AuthContext'
 import useAuthApi from '../../../hooks/useAuthApi'
+import { useAuth } from '../../../context/AuthContext'
 
 const Logout = () => {
-  const { logout } = useAuth()
   const { isLoading, isError, error, logoutUser } = useAuthApi()
+  const { logout } = useAuth()
 
   const handleLogout = async () => {
-    const ok = await logoutUser()
     logout()
+    const ok = await logoutUser()
     if (!ok) {
       console.error('Logout failed')
     }

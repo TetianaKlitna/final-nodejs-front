@@ -1,44 +1,43 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { ReactNode } from 'react'
 import { AuthContext } from './AuthContext'
 import type { AuthContextType } from './AuthTypes'
-import { setAccessToken, getAccessToken } from '../api/tokenStore'
-import { useEffect } from 'react'
+import {
+  getAccessToken,
+  setAccessToken,
+  setUser,
+  getUser,
+  clearAuth
+} from '../api/tokenStore'
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<string | null>(null)
+  const [username, setUsername] = useState<string | null>(null)
 
   useEffect(() => {
-    ;(async () => {
-      try {
-        const r = await fetch(`${import.meta.env.VITE_APP_API_URL}/auth/user`, {
-          credentials: 'include'
-        })
-        if (!r.ok) throw new Error()
-        const { user, accessToken } = await r.json()
-        setUser(user.name)
-        setAccessToken(accessToken)
-      } catch {
-        setUser(null)
-      }
-    })()
+    const savedUser = getUser()
+    const savedToken = getAccessToken()
+
+    if (savedUser && savedToken) {
+      setUsername(savedUser)
+      setAccessToken(savedToken)
+    }
   }, [])
 
-  const login = (user: string, token: string) => {
-    setUser(user)
-    setAccessToken(token)
+  const login = (accessToken: string | null, username: string | null) => {
+    setAccessToken(accessToken)
+    setUser(username)
+    setUsername(username)
   }
 
   const logout = () => {
-    setUser(null)
-    setAccessToken(null)
+    setUsername(null)
+    clearAuth()
   }
 
   const value: AuthContextType = {
-    user,
-    token: getAccessToken(),
-    login,
-    logout
+    username,
+    logout,
+    login
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
