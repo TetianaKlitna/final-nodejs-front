@@ -48,7 +48,8 @@ const BarChartPriority = ({ tasks }: BarChartPriorityProps) => {
             color: theme.palette.error.main
           }
         ]}
-        height={200}
+        // height={400}
+        // width={500}
       />
     </>
   )

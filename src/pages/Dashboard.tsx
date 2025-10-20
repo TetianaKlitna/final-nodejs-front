@@ -68,20 +68,42 @@ const Dashboard = () => {
     }
   }, [handleCreated, handleUpdated, handleDeleted])
 
+  const ChartCard: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+    <Card variant='outlined' sx={{ flex: 1 }}>
+      <CardContent
+        sx={{
+          flex: 1,
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+        {children}
+      </CardContent>
+    </Card>
+  )
+
   return (
     <LoadingWrapper isLoading={isLoading} isError={isError} error={error}>
-      <Stack direction='row' sx={{ width: '100%' }}>
-        <Card variant='outlined' sx={{ flex: 1 }}>
-          <CardContent>
-            <PieChartStatus tasks={tasks} />
-          </CardContent>
-        </Card>
+      <Stack
+        direction={{ xs: 'column', md: 'row' }}
+        spacing={2}
+        sx={{
+          height: '90%',
+          p: 2,
+          justifyContent: 'center',
+          alignItems: 'stretch'
+        }}
+      >
+        <ChartCard>
+          <PieChartStatus tasks={tasks} />
+        </ChartCard>
 
-        <Card variant='outlined' sx={{ flex: 1 }}>
-          <CardContent>
-            <BarChartPriority tasks={tasks} />
-          </CardContent>
-        </Card>
+        <ChartCard>
+          <BarChartPriority tasks={tasks} />
+        </ChartCard>
       </Stack>
     </LoadingWrapper>
   )

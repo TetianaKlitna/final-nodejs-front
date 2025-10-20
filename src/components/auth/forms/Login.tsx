@@ -36,8 +36,14 @@ const Login = () => {
   useEffect(() => {
     const params = new URLSearchParams(location.search)
     const authError = params.get('auth')
+    const username = params.get('username')
+    const accessToken = params.get('token')
     if (authError) {
       switch (authError.trim()) {
+        case 'success':
+          login(accessToken, username)
+          navigate('/', { replace: true })
+          break
         case 'failed':
           setErrorFormMsg('Sign-in failed. Please try again.')
           break
@@ -59,7 +65,7 @@ const Login = () => {
           )
       }
     }
-  }, [location.search])
+  }, [location.search, login])
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()

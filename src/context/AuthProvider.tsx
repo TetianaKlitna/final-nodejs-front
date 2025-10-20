@@ -11,17 +11,9 @@ import {
 } from '../api/tokenStore'
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [username, setUsername] = useState<string | null>(null)
-
-  useEffect(() => {
-    const savedUser = getUser()
-    const savedToken = getAccessToken()
-
-    if (savedUser && savedToken) {
-      setUsername(savedUser)
-      setAccessToken(savedToken)
-    }
-  }, [])
+  const [username, setUsername] = useState<string | null>(
+    localStorage.getItem('username')
+  )
 
   const login = (accessToken: string | null, username: string | null) => {
     setAccessToken(accessToken)

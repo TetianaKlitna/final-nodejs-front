@@ -4,6 +4,7 @@ import { grey, blue, green } from '@mui/material/colors'
 import { STATUS } from '../../constants/Status'
 import Typography from '@mui/material/Typography'
 import { PieChart } from '@mui/x-charts/PieChart'
+import Box from '@mui/material/Box'
 
 type PieChartStatusProps = {
   tasks: TaskDTO[]
@@ -42,7 +43,8 @@ const PieChartStatus = ({ tasks }: PieChartStatusProps) => {
             ]
           }
         ]}
-        height={200}
+        // height={300}
+        // width={300}
       />
     </>
   )
