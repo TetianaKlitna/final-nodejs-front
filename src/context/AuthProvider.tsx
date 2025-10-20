@@ -1,14 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import type { ReactNode } from 'react'
 import { AuthContext } from './AuthContext'
 import type { AuthContextType } from './AuthTypes'
-import {
-  getAccessToken,
-  setAccessToken,
-  setUser,
-  getUser,
-  clearAuth
-} from '../api/tokenStore'
+import { setAccessToken, setUser, clearAuth } from '../api/tokenStore'
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [username, setUsername] = useState<string | null>(
