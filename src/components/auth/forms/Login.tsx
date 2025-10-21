@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
-// import Divider from '@mui/material/Divider'
+import Divider from '@mui/material/Divider'
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
@@ -168,14 +168,14 @@ const Login = () => {
         </Button>
         {errorFormMsg && <ErrorAlert message={errorFormMsg} />}
         {isError && <ErrorAlert message={error} />}
-        {/* <Link
+        <Link
           href='/forgotPassword'
           variant='body2'
           sx={{ alignSelf: 'center' }}
         >
           Forgot your password?
         </Link>
-        <Divider>or</Divider> */}
+        <Divider>or</Divider>
         <SocialLogin />
         <Typography sx={{ textAlign: 'center' }}>
           Don&apos;t have an account?{' '}
